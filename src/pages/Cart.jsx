@@ -9,8 +9,8 @@ import { cartActions } from "../store/shopping-cart/cartSlice";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const cartItems = useSelector((cart) => cart.cartItems);
+  const totalAmount = useSelector((cart) => cart.totalAmount);
   return (
     <Helmet title="Cart">
       <CommonSection title="Your Cart" />
