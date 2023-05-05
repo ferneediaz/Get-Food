@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Get cart items, total amount, and total quantity from local storage
 const items =
   localStorage.getItem("cartItems") !== null
     ? JSON.parse(localStorage.getItem("cartItems"))
@@ -15,24 +16,27 @@ const totalQuantity =
     ? JSON.parse(localStorage.getItem("totalQuantity"))
     : 0;
 
+// Save cart items, total amount, and total quantity to local storage
 const setItemFunc = (item, totalAmount, totalQuantity) => {
   localStorage.setItem("cartItems", JSON.stringify(item));
   localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
   localStorage.setItem("totalQuantity", JSON.stringify(totalQuantity));
 };
 
+// Set initial state with cart items, total amount, and total quantity
 const initialState = {
   cartItems: items,
   totalQuantity: totalQuantity,
   totalAmount: totalAmount,
 };
 
+// Create cart slice with reducers for adding, removing, and deleting items
 const cartSlice = createSlice({
   name: "cart",
   initialState,
 
   reducers: {
-    // =========== add item ============
+    // Add item to cart
     addItem(state, action) {
       const newItem = action.payload;
       const existingItem = state.cartItems.find(
@@ -41,8 +45,7 @@ const cartSlice = createSlice({
       state.totalQuantity++;
 
       if (!existingItem) {
-        // ===== note: if you use just redux you should not mute state array instead of clone the state array, but if you use redux toolkit that will not a problem because redux toolkit clone the array behind the scene
-
+        // If item doesn't exist in cart, add it
         state.cartItems.push({
           id: newItem.id,
           title: newItem.title,
@@ -52,14 +55,15 @@ const cartSlice = createSlice({
           totalPrice: newItem.price,
         });
       } else {
+        // If item already exists in cart, increase quantity and total price
         existingItem.quantity++;
         existingItem.totalPrice =
           Number(existingItem.totalPrice) + Number(newItem.price);
       }
 
+      // Calculate total amount of cart and save to local storage
       state.totalAmount = state.cartItems.reduce(
         (total, item) => total + Number(item.price) * Number(item.quantity),
-
         0
       );
 
@@ -70,21 +74,23 @@ const cartSlice = createSlice({
       );
     },
 
-    // ========= remove item ========
-
+    // Remove item from cart
     removeItem(state, action) {
       const id = action.payload;
       const existingItem = state.cartItems.find((item) => item.id === id);
       state.totalQuantity--;
 
       if (existingItem.quantity === 1) {
+        // If item quantity is 1, remove it from cart
         state.cartItems = state.cartItems.filter((item) => item.id !== id);
       } else {
+        // If item quantity is greater than 1, decrease quantity and total price
         existingItem.quantity--;
         existingItem.totalPrice =
           Number(existingItem.totalPrice) - Number(existingItem.price);
       }
 
+      // Calculate total amount of cart and save to local storage
       state.totalAmount = state.cartItems.reduce(
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
@@ -97,17 +103,18 @@ const cartSlice = createSlice({
       );
     },
 
-    //============ delete item ===========
-
+    // Delete item from cart
     deleteItem(state, action) {
       const id = action.payload;
       const existingItem = state.cartItems.find((item) => item.id === id);
 
       if (existingItem) {
+        // If item exists in cart, remove it and decrease total quantity
         state.cartItems = state.cartItems.filter((item) => item.id !== id);
         state.totalQuantity = state.totalQuantity - existingItem.quantity;
       }
 
+      // Calculate total amount of cart and save to local storage
       state.totalAmount = state.cartItems.reduce(
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
