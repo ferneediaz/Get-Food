@@ -113,9 +113,7 @@ const Home = () => {
                       <Link to="/foods">Order now <i class="ri-arrow-right-s-line"></i></Link>
                     </button>
 
-                    <button className="all__foods-btn">
-                      <Link to="/foods">See all foods</Link>
-                    </button>
+                    
                   </div>
                 <div className=" hero__service  d-flex align-items-center gap-5 mt-5 ">
                   <p className=" d-flex align-items-center gap-2 ">
@@ -318,6 +316,7 @@ const Home = () => {
                 <h2 className="testimonial__title mb-4">
                   What our <span>customers</span> are saying
                 </h2>
+
 
                 <TestimonialSlider />
               </div>
