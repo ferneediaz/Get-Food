@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/common-section/CommonSection";
+
 import { Container, Row, Col } from "reactstrap";
+
 import products from "../assets/fake-data/products";
 import ProductCard from "../components/UI/product-card/ProductCard";
 import ReactPaginate from "react-paginate";
-import _ from 'lodash';
 
 import "../styles/all-foods.css";
 import "../styles/pagination.css";
 
 const AllFoods = () => {
   const [searchTerm, setSearchTerm] = useState("");
+
   const [pageNumber, setPageNumber] = useState(0);
-  const [sortedProducts, setSortedProducts] = useState([]);
 
   const searchedProduct = products.filter((item) => {
     if (searchTerm.value === "") {
@@ -28,17 +29,12 @@ const AllFoods = () => {
 
   const productPerPage = 12;
   const visitedPage = pageNumber * productPerPage;
-
-  // Sort the data using Lodash
-  const sortedData = _.orderBy(searchedProduct, ['price'], ['asc']);
-  setSortedProducts(sortedData);
-
-  const displayPage = sortedProducts.slice(
+  const displayPage = searchedProduct.slice(
     visitedPage,
     visitedPage + productPerPage
   );
 
-  const pageCount = Math.ceil(sortedProducts.length / productPerPage);
+  const pageCount = Math.ceil(searchedProduct.length / productPerPage);
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -66,29 +62,7 @@ const AllFoods = () => {
             </Col>
             <Col lg="6" md="6" sm="6" xs="12" className="mb-5">
               <div className="sorting__widget text-end">
-                <select className="w-50" onChange={(e) => {
-                  // Sort the data based on the selected option
-                  const selectedOption = e.target.value;
-                  if (selectedOption === "ascending") {
-                    const sortedData = _.orderBy(searchedProduct, ['title'], ['asc']);
-                    setPageNumber(0);
-                    setSortedProducts(sortedData);
-                  } else if (selectedOption === "descending") {
-                    const sortedData = _.orderBy(searchedProduct, ['title'], ['desc']);
-                    setPageNumber(0);
-                    setSortedProducts(sortedData);
-                  } else if (selectedOption === "high-price") {
-                    const sortedData = _.orderBy(searchedProduct, ['price'], ['desc']);
-                    setPageNumber(0);
-                    setSortedProducts(sortedData);
-                  } else if (selectedOption === "low-price") {
-                    const sortedData = _.orderBy(searchedProduct, ['price'], ['asc']);
-                    setPageNumber(0);
-                    setSortedProducts(sortedData);
-                  } else {
-                    setSortedProducts(searchedProduct);
-                  }
-                }}>
+                <select className="w-50">
                   <option>Default</option>
                   <option value="ascending">Alphabetically, A-Z</option>
                   <option value="descending">Alphabetically, Z-A</option>
