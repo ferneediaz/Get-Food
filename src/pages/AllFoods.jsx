@@ -27,12 +27,14 @@ const AllFoods = () => {
   const productPerPage = 12;
   const visitedPage = pageNumber * productPerPage;
 
-  const displayPage = sortedProducts.slice(
-    visitedPage,
-    visitedPage + productPerPage
-  );
+  const displayPage = sortedProducts.length
+    ? sortedProducts.slice(visitedPage, visitedPage + productPerPage)
+    : searchedProduct.slice(visitedPage, visitedPage + productPerPage);
 
-  const pageCount = Math.ceil(sortedProducts.length / productPerPage);
+  const pageCount = Math.ceil(
+    (sortedProducts.length ? sortedProducts : searchedProduct).length /
+      productPerPage
+  );
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -55,7 +57,7 @@ const AllFoods = () => {
     } else if (selectedOption === "low-price") {
       sortedData = searchedProduct.sort((a, b) => a.price - b.price);
     } else {
-      sortedData = searchedProduct;
+      sortedData = [];
     }
 
     setPageNumber(0);
@@ -85,7 +87,7 @@ const AllFoods = () => {
             <Col lg="6" md="6" sm="6" xs="12" className="mb-5">
               <div className="sorting__widget text-end">
                 <select className="w-50" onChange={handleSort}>
-                  <option>Default</option>
+                  <option value="">Default</option>
                   <option value="ascending">Alphabetically, A-Z</option>
                   <option value="descending">Alphabetically, Z-A</option>
                   <option value="high-price">High Price</option>
