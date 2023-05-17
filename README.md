@@ -2,7 +2,7 @@
 <p align="center">
   <img src="https://i.imgur.com/sRie711.png" alt="Desktop Screenshot" width="1000" style="margin-bottom: 20px;">
   <br>
-  <img src="https://i.imgur.com/qfiPNLM.png" alt="Mobile Screenshot" height="500" width="300" style="margin-top: 20px;">
+  <img src="https://i.imgur.com/qfiPNLM.png" alt="Mobile Screenshot" height="530" width="300" style="margin-top: 20px;">
 </p>
 
 
