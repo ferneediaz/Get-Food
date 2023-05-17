@@ -1,5 +1,5 @@
 ## Food Ordering App
-
+<img src="https://i.imgur.com/sRie711.png" alt="Desktop Screenshot" width="500"> <img src="https://i.imgur.com/qfiPNLM.png" alt="Mobile Screenshot" width="300">
 ### Features:
 
 ---
